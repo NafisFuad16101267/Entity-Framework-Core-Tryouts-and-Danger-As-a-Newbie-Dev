@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../EFDataAccessLibrary/EFDataAccessLibrary.csproj" />
+  <Project Path="EFCoreDemo.csproj" />
+</Solution>
