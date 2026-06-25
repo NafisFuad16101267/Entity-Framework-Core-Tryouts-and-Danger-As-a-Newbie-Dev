@@ -2,6 +2,7 @@ using EFCoreDemo.Models;
 using EFDataAccessLibrary;
 using EFDataAccessLibrary.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Text.Json;
 
@@ -42,6 +43,12 @@ namespace EFCoreDemo.Controllers
                 _peopleContext.AddRange(people);
                 _peopleContext.SaveChanges();
             }
+
+            var peoples = _peopleContext.Person
+                            .Include(person => person.Emails)
+                            .Include(person => person.Addresses)
+                            .ToList()
+                            .Where(person => (person.Age >= 18 && person.Age <= 65));
         }
     }
 }
