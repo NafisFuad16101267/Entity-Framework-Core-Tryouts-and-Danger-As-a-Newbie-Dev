@@ -8,6 +8,26 @@ CREATE TABLE [USER](
     CONSTRAINT PK_user PRIMARY KEY (user_id),
 );
 
+-- create DDL for MANUFACTURER table
+
+CREATE TABLE MANUFACTURER (
+    manufacturer_id INT IDENTITY(1,1),
+    manufacturer_name VARCHAR(150) NOT NULL,
+    contact_email VARCHAR(100) NULL,
+    contact_phone VARCHAR(30) NULL,
+    
+    -- Audit Fields
+    created_by INT NOT NULL,
+    created_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_by INT NOT NULL,
+    modified_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Constraints
+    CONSTRAINT PK_manufacturer PRIMARY KEY (manufacturer_id),
+    CONSTRAINT FK_manufacturer_created_by FOREIGN KEY (created_by) REFERENCES [USER](user_id),
+    CONSTRAINT FK_manufacturer_modified_by FOREIGN KEY (modified_by) REFERENCES [USER](user_id)
+);
+
 
 -- Create DDL for PRODUCT_TYPE table
 
@@ -48,7 +68,26 @@ CREATE TABLE product (
     CONSTRAINT PK_product PRIMARY KEY (product_id),
     CONSTRAINT FK_product_product_type FOREIGN KEY (product_type_id) REFERENCES product_type(product_type_id),
     CONSTRAINT FK_product_created_by FOREIGN KEY (created_by) REFERENCES [USER](user_id),
-    CONSTRAINT FK_product_modified_by FOREIGN KEY (modified_by) REFERENCES [USER](user_id)
-    -- Add the manufacturer foreign key once that table exists:
-    -- CONSTRAINT FK_product_manufacturer FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(manufacturer_id)
+    CONSTRAINT FK_product_modified_by FOREIGN KEY (modified_by) REFERENCES [USER](user_id),
+    CONSTRAINT FK_product_manufacturer FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(manufacturer_id)
+);
+
+-- create DDL for CUSTOMER table
+
+CREATE TABLE CUSTOMER (
+    customer_id INT IDENTITY(1,1),
+    customer_name VARCHAR(150) NOT NULL,
+    email_address VARCHAR(100) NULL,
+    phone_number VARCHAR(30) NULL,
+    
+    -- Audit Fields
+    created_by INT NOT NULL,
+    created_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_by INT NOT NULL,
+    modified_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Constraints
+    CONSTRAINT PK_customer PRIMARY KEY (customer_id),
+    CONSTRAINT FK_customer_created_by FOREIGN KEY (created_by) REFERENCES [USER](user_id),
+    CONSTRAINT FK_customer_modified_by FOREIGN KEY (modified_by) REFERENCES [USER](user_id)
 );
