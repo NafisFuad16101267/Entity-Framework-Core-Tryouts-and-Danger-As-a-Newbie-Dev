@@ -91,3 +91,43 @@ CREATE TABLE CUSTOMER (
     CONSTRAINT FK_customer_created_by FOREIGN KEY (created_by) REFERENCES [USER](user_id),
     CONSTRAINT FK_customer_modified_by FOREIGN KEY (modified_by) REFERENCES [USER](user_id)
 );
+
+-- create DDL script for PRODUCT_TYPE table
+
+CREATE TABLE problem_type (
+    problem_type_id INT IDENTITY(1,1),
+    problem_name VARCHAR(150) NOT NULL,
+    problem_description VARCHAR(500) NULL,
+    
+    -- Audit Fields
+    created_by INT NOT NULL,
+    created_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_by INT NOT NULL,
+    modified_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Constraints
+    CONSTRAINT PK_problem_type PRIMARY KEY (problem_type_id),
+    CONSTRAINT FK_problem_type_created_by FOREIGN KEY (created_by) REFERENCES [USER](user_id),
+    CONSTRAINT FK_problem_type_modified_by FOREIGN KEY (modified_by) REFERENCES [USER](user_id)
+);
+
+-- create DDL script for SPARE_PARTS table
+
+CREATE TABLE spare_part (
+    spare_part_id INT IDENTITY(1,1),
+    spare_part_name VARCHAR(150) NOT NULL,
+    spare_part_description VARCHAR(500) NULL,
+    part_number VARCHAR(100) NULL,
+    cost DECIMAL(18,2) NOT NULL DEFAULT 0.00, -- Helpful for tracking financial inventory costs
+    
+    -- Audit Fields
+    created_by INT NOT NULL,
+    created_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_by INT NOT NULL,
+    modified_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Constraints
+    CONSTRAINT PK_spare_part PRIMARY KEY (spare_part_id),
+    CONSTRAINT FK_spare_part_created_by FOREIGN KEY (created_by) REFERENCES [USER](user_id),
+    CONSTRAINT FK_spare_part_modified_by FOREIGN KEY (modified_by) REFERENCES [USER](user_id)
+);
